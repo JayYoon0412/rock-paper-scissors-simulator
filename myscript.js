@@ -1,3 +1,23 @@
+const num = parseInt(window.prompt("Enter number of rounds: ", ""));
+const panel = document.querySelector(".result-panel");
+const container = document.querySelector(".container");
+const finalBoard = document.querySelector(".finalBoard");
+container.textContent = "Number of Rounds: " + num;
+
+let counter = 0;
+let playerSelection = "";
+let playerScore = 0;
+let computerScore = 0;
+const buttons = Array.from(document.querySelectorAll("button"));
+buttons.forEach(button => button.addEventListener("click", givePlayerChoice));
+
+function givePlayerChoice(e) {
+    if (e.target.id==="r") playerSelection = "rock";
+    if (e.target.id==="p") playerSelection = "paper";
+    if (e.target.id==="s") playerSelection = "scissors";
+    game();
+}
+
 function computerPlay () {
     let randNum = Math.floor(Math.random()*3+1);
     if (randNum===1) return "rock";
@@ -15,23 +35,28 @@ function playRound(a, b) {
 }
 
 function game() {
-    let playerScore = 0;
-    let computerScore = 0;
-    for (let i=0; i<5; i++) {
-        let input = window.prompt("Enter your choice: rock/ paper/ scissors");
-        let playerSelection = input.toLowerCase();
-        let computerSelection = computerPlay();
-        let result = playRound(playerSelection, computerSelection);
-        console.log(result);
-        if (result==="WIN") playerScore++;
-        if (result==="LOSE") computerScore++;
-        console.log(`Your score: ${playerScore}`);
-        console.log(`Computer score: ${computerScore}`);
-    }
-    if (playerScore>computerScore) console.log("YOU WIN");
-    if (playerScore<computerScore) console.log( "YOU LOST");
-    else 
-        console.log("IT'S A TIE");
+    let computerSelection = computerPlay();
+    let result = playRound(playerSelection, computerSelection);
+    let box = document.createElement("p");
+    let scoreKeep = document.createElement("p");
+    box.textContent = result;
+    box.classList.add("result");
+    scoreKeep.classList.add("score");
+    panel.appendChild(box);
+    if (result==="WIN") playerScore++;
+    if (result==="LOSE") computerScore++;
+    scoreKeep.textContent = `Your score: ${playerScore} || Computer score: ${computerScore}`;
+    panel.appendChild(scoreKeep);
+    counter++;
+    if (counter===num) finalResult();
 }
 
-game();
+function finalResult() {
+    if (playerScore>computerScore) finalBoard.textContent="YOU WIN!";
+    if (playerScore<computerScore) finalBoard.textContent="YOU LOST!";
+    if (playerScore===computerScore) finalBoard.textContent="IT'S A TIE!";
+}
+
+
+
+
