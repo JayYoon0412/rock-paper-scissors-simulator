@@ -55,6 +55,7 @@ function finalResult() {
     if (playerScore>computerScore) finalBoard.textContent="YOU WIN!";
     if (playerScore<computerScore) finalBoard.textContent="YOU LOST!";
     if (playerScore===computerScore) finalBoard.textContent="IT'S A TIE!";
+    buttons.forEach(button => button.removeEventListener("click", givePlayerChoice));
 }
 
 
